@@ -10,10 +10,6 @@ div#svg_div {
     text-align: center;
 }
 
-svg {
-    border: 1px dotted grey;
-}
-
 .curve {
     fill: none;
     stroke: steelblue;

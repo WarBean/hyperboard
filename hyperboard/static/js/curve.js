@@ -48,22 +48,6 @@ var refresh_visible = function() {
             name2visible_curve[name] = name2visible_row[name];
         }
     }
-    //for (var name in name2series) {
-    //    if (hidden_names.has(name)) {
-    //        name2visible_curve[name] = false;
-    //    } else {
-    //        name2visible_curve[name] = true;
-    //        var hyperparameters = name2series[name].hyperparameters;
-    //        for (var hypername in hyperparameters) {
-    //            var hypervalue = hyperparameters[hypername];
-    //            var selected = hypername2values[hypername][hypervalue];
-    //            if (!selected) {
-    //                name2visible_curve[name] = false;
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
 }
 
 var refresh_curve = function() {
@@ -108,7 +92,7 @@ var refresh_curve = function() {
     var axis_offset = 40,
         svg_height = 600,
         svg_width = 960 + (axis_count - 1) * axis_offset;
-    var margin = { top: 60, right: 60, bottom: 60, left: 60 },
+    var margin = { top: 100, right: 60, bottom: 20, left: 60 },
         canvas_width = svg_width - margin.left - margin.right,
         canvas_height = svg_height - margin.top - margin.bottom;
         x_axis_width = canvas_width - (axis_count - 1) * axis_offset
