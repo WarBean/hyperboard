@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HyperBoard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- D3 -->
+        <script src="../static/js/d3.v4.min.js"></script>
+
+        <!-- jQuery -->
+        <script src="../static/js/jquery-3.1.1.min.js"></script>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../static/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css"/>
+        <script src="../static/js/bootstrap.min.js"></script>
+
+        <!-- Bootstrap Table -->
+        <script src="../static/js/bootstrap-table.min.js"></script>
+        <link rel="stylesheet" href="../static/css/bootstrap-table.min.css"/>
+
+        <!-- Multiple Select -->
+        <script src="../static/js/multiple-select.js"></script>
+        <link rel="stylesheet" href="../static/css/multiple-select.css"/>
+
+    </head>
+    <body>
+        <div id="out-most-div">
+        <nav class="navbar navbar-default navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="/">HyperBoard</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <!--li><a href="/curve">Curve</a></li-->
+                <!--li><a href="/curve">Histogram</a></li-->
+                <!--li><a href="/curve">Scatter</a></li-->
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com">GitHub Repository</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div id="svg_div">
+            <svg></svg>
+        </div>
+
+        <div class="margin-div"></div>
+
+        <div class="input-group-container">
+            <div class="input-group">
+                <span class="input-group-addon">update interval</span>
+                <input type="text" id="interval" class="form-control" value="1000" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">max sample count</span>
+                <input type="text" id="sample" class="form-control" value="5000" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">smooth window</span>
+                <input type="text" id="window" class="form-control" value="10" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="margin-div"></div>
+
+        <div id="filter"></div>
+
+        <div class="margin-div"></div>
+
+        <div id="table_div">
+            <table id="table"></table>
+        </div>
+
+        <link href="../static/css/curve.css" rel="stylesheet" type="text/css"/>
+        <script src="../static/js/curve.js"></script>
+        </div>
+    </body>
+</html>

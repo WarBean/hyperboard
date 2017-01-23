@@ -1,0 +1,63 @@
+body {
+    min-height: 0px;
+}
+
+div.margin-div {
+    height: 40px;
+}
+
+div#svg_div {
+    text-align: center;
+}
+
+svg {
+    border: 1px dotted grey;
+}
+
+.curve {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.input-group-container {
+    width: 400px;
+    margin: auto;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.input-group-addon {
+    width: 50%;
+}
+
+.select_text_div {
+    width: 200px;
+    display:inline;
+    text-align: center;
+    float: left;
+}
+
+.multiselect {
+    width: 600px;
+}
+
+.select_outer_div {
+    width: 800px;
+    margin: auto;
+}
+
+div#table_div {
+    width: 1000px;
+    margin: auto;
+}
+
+div.color {
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 80%;
+    height: 3px;
+}
