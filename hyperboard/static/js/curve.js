@@ -2,7 +2,7 @@ var refresh_data = function(response) {
     for (var name in response) {
         if (response[name] == 'deleted') {
             delete name2series[name];
-            delete name2visible[name];
+            delete name2visible_curve[name];
         } else {
             name2series[name] = response[name];
         }
@@ -30,28 +30,47 @@ var refresh_data = function(response) {
 
 var refresh_visible = function() {
     for (var name in name2series) {
-        if (hidden_names.has(name)) {
-            name2visible[name] = false;
-        } else {
-            name2visible[name] = true;
-            var hyperparameters = name2series[name].hyperparameters;
-            for (var hypername in hyperparameters) {
-                var hypervalue = hyperparameters[hypername];
-                var selected = hypername2values[hypername][hypervalue];
-                if (!selected) {
-                    name2visible[name] = false;
-                    break;
-                }
+        name2visible_row[name] = true;
+        var hyperparameters = name2series[name].hyperparameters;
+        for (var hypername in hyperparameters) {
+            var hypervalue = hyperparameters[hypername];
+            var selected = hypername2values[hypername][hypervalue];
+            if (!selected) {
+                name2visible_row[name] = false;
+                break;
             }
         }
     }
+    for (var name in name2series) {
+        if (hidden_names.has(name)) {
+            name2visible_curve[name] = false;
+        } else {
+            name2visible_curve[name] = name2visible_row[name];
+        }
+    }
+    //for (var name in name2series) {
+    //    if (hidden_names.has(name)) {
+    //        name2visible_curve[name] = false;
+    //    } else {
+    //        name2visible_curve[name] = true;
+    //        var hyperparameters = name2series[name].hyperparameters;
+    //        for (var hypername in hyperparameters) {
+    //            var hypervalue = hyperparameters[hypername];
+    //            var selected = hypername2values[hypername][hypervalue];
+    //            if (!selected) {
+    //                name2visible_curve[name] = false;
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
 }
 
 var refresh_curve = function() {
     var visible_names = [];
     var all_names = [];
-    for (var name in name2visible) {
-        if (name2visible[name]) {
+    for (var name in name2visible_curve) {
+        if (name2visible_curve[name]) {
             visible_names.push(name);
         }
         all_names.push(name);
@@ -217,6 +236,7 @@ var refresh_filter = function() {
                     }
                     refresh_visible();
                     refresh_curve();
+                    refresh_table();
                 }
             });
             last_child = $div;
@@ -228,9 +248,6 @@ var refresh_filter = function() {
 
 var refresh_table = function() {
     $('#out-most-div').css('min-height', $('#out-most-div').height());
-    //$('#out-most-div').css('min-height', function() {
-    //    return $(this).height;
-    //});
     $('#table').bootstrapTable('destroy');
     var columns = [];
     for (var hypername in hypername2values) {
@@ -251,10 +268,18 @@ var refresh_table = function() {
         field: "operation",
         title: "operation",
         align: 'center',
-        valign: 'middle'
+        valign: 'middle',
     })
+
+    var visible_names = [];
+    for (var name in name2visible_row) {
+        if (name2visible_row[name]) {
+            visible_names.push(name);
+        }
+    }
+
     var rows = [];
-    for (var name in name2series) {
+    visible_names.forEach(function(name) {
         var row = {};
         var hyperparameters = name2series[name].hyperparameters;
         for (var hypername in hypername2values) {
@@ -278,14 +303,16 @@ var refresh_table = function() {
             button_text = 'Shown';
         }
         var operation_html = [
+            '<div class="btn-group-container">',
             '<div class="btn-group" role="group" aria-label="...">',
                 '<button type="button" id="visibility ' + name + '" class="btn ' + button_class + ' control-visibility">' + button_text + '</button>',
-                '<button type="button" id="delete ' + name + '" class="btn btn-danger">Delete from Server</button>',
+                '<button type="button" id="delete ' + name + '" class="btn btn-danger control-delete">Delete from Server</button>',
+            '</div>',
             '</div>',
         ].join('');
         row['operation'] = operation_html
         rows.push(row);
-    }
+    });
     $('#table').bootstrapTable();
     $('#table').bootstrapTable('refreshOptions', {
         columns: columns,
@@ -350,7 +377,8 @@ var request_for_update = function() {
 
 window.onload = function () {
     name2series = {};
-    name2visible = {};
+    name2visible_curve = {};
+    name2visible_row = {};
     hidden_names = new Set();
     hypername2values = {};
 

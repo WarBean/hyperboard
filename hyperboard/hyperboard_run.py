@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 from os import path
-from HyperBoard import Server
+from hyperboard import Server
 
 def main():
     parser = argparse.ArgumentParser()

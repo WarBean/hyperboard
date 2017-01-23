@@ -61,3 +61,7 @@ div.color {
     width: 80%;
     height: 3px;
 }
+
+.btn-group-container {
+    width: 220px;
+}

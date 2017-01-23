@@ -1,2 +1,2 @@
-graft HyperBoard/templates
-graft HyperBoard/static
+graft hyperboard/templates
+graft hyperboard/static
