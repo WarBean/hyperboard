@@ -232,6 +232,11 @@ var refresh_filter = function() {
 
 var refresh_table = function() {
     $('#out-most-div').css('min-height', $('#out-most-div').height());
+    var $table_body = $('.fixed-table-body');
+    var scroll_left = 0;
+    if ($('.fixed-table-body').length != 0) {
+        scroll_left = $('.fixed-table-body')[0].scrollLeft;
+    }
     $('#table').bootstrapTable('destroy');
     var columns = [];
     for (var hypername in hypername2values) {
@@ -333,6 +338,7 @@ var refresh_table = function() {
         }
     })
     $('#out-most-div').css('min-height', 0);
+    $('.fixed-table-body')[0].scrollLeft = scroll_left;
 }
 
 var request_for_update = function() {
