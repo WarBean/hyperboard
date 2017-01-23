@@ -79,5 +79,4 @@ class Server:
         self.app = app
 
     def run(self, **kwargs):
-        print(kwargs)
         self.app.run(**kwargs)

@@ -3,6 +3,7 @@ var refresh_data = function(response) {
         if (response[name] == 'deleted') {
             delete name2series[name];
             delete name2visible_curve[name];
+            delete name2visible_row[name];
         } else {
             name2series[name] = response[name];
         }

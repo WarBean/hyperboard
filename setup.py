@@ -9,7 +9,7 @@ setup(
     author = 'Huabin Zheng',
     author_email = 'warbean@qq.com',
     description = 'A web-based dashboard for Deep Learning',
-    long_description = open(path.join(path.abspath(path.dirname(__file__)), 'README.rst'), encoding = 'utf-8').read(),
+    long_description = open(path.join(path.abspath(path.dirname(__file__)), 'README.rst')).read(),
     license = 'MIT',
     keywords = 'dashboard deep learning hyperparameter DL',
     package_data={
@@ -17,7 +17,7 @@ setup(
     },
     include_package_data = True,
     zip_safe = False,
-    install_requires = ['flask', 'flask_auth', 'requests', 'numpy'],
+    install_requires = ['flask', 'flask_httpauth', 'requests', 'numpy'],
     entry_points={
         'console_scripts': [
             'hyperboard-run = hyperboard.hyperboard_run:main'

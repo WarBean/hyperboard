@@ -82,7 +82,7 @@ class Recorder:
         records = self.name2series[name]['records']
         length = len(records)
         if length == 0: return []
-        delta = math.ceil(float(length) / max_sample_count)
+        delta = int(math.ceil(float(length) / max_sample_count))
         records = np.array(records)
         samples = [
             np.mean(records[index : index + smooth_window], axis = 0)

@@ -29,11 +29,8 @@ for learning_rate in [0.1, 0.01, 0.001]:
                         'criteria': criteria,
                         'corpus': corpus,
                         'optimizer': optimizer,
-                        'num layer': 3,
                         'momentum': 0.9,
                         'num hidden': 300,
-                        'embed size': 200,
-                        'weight decay': '1e-2',
                     }
                     metric = criteria2metric[criteria]
                     print('register criteria <%s> as metric <%s>' % (criteria, metric))
@@ -41,10 +38,11 @@ for learning_rate in [0.1, 0.01, 0.001]:
                     name_list.append(name)
                     criteria_list.append(criteria)
                     offset_list.append(abs(random.random() * 0.5))
+
 for i in range(10000):
     print('append %d' % i)
     for name, criteria, offset in zip(name_list, criteria_list, offset_list):
-        value = math.exp(- i / 10) + offset + random.random() * 0.05
+        value = math.exp(- i / 10.0) + offset + random.random() * 0.05
         metric = criteria2metric[criteria]
         if metric == 'accuracy': value = 1 - value
         scale = metric2scale[metric]
