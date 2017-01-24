@@ -110,4 +110,4 @@ accuracy
 
 The first line is hyperparameters. The second line is metric. Each line below contains the iteration index and the criteria value.
 
-The next time you launch the HyperBoard Server, it will reload the `.record` file in to memory.
+The next time you launch HyperBoard Server, it will reload all `.record` files (except those you delete manually) in to memory.
