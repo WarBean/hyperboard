@@ -29,7 +29,7 @@ HyperBoard is easy to use. It is composed of three components: **Server**, **Age
 - start model training and for each K iteration, call **HyperBoard Agent** to send cross entropy, accuracy, BELU, etc to **HyperBoard Server**
 - open **HyperBoard Dashboard** on your local browser, watch the curves growing
 
-You can also run **HyperBoard Server** on your local PC. Currently, **HyperBoard Server** and **Agent** have been tested on Mac OS and Ubuntu. **HyperBoard Dashboard** has been tested on Firefox, Chrome and Safari.
+You can also run HyperBoard Server on your local PC. Currently, HyperBoard Server and Agent have been tested on Mac OS and Ubuntu. HyperBoard Dashboard has been tested on Firefox, Chrome and Safari.
 
 Here's the details:
 
@@ -51,7 +51,7 @@ You can use HyperBoard without security authentication by simply using `hyperboa
 
 ### Start model training
 
-For this part, you are recommended to run a simulation script [`example/run_agent.py`](https://github.com/WarBean/hyperboard/blob/master/example/run-agent.py) first. Detailed usage of **HyperBoard Agent** will be explained below.
+For this part, you are recommended to run a simulation script [`example/run_agent.py`](https://github.com/WarBean/hyperboard/blob/master/example/run_agent.py) first. Detailed usage of HyperBoard Agent will be explained below.
 
 
 ### Open dashboard on you local browser
@@ -69,7 +69,7 @@ from hyperboard import Agent
 agent = Agent(username = '', password = '', address = '127.0.0.1', port = 5000)
 ```
 
-`username` and `password` can be omitted if you have launched **HyperBoard Server** without security authentication. `address` and `port` can be omitted to use default value.
+`username` and `password` can be omitted if you have launched HyperBoard Server without security authentication. `address` and `port` can be omitted to use default value.
 
 
 ### Register a curve on Server
@@ -92,7 +92,7 @@ agent.append(name, index, value)
 
 ## Record Storage
 
-Each curve is saved as a file with suffix `.record`, in the very directory where you launcher **HyperBoard Server**. The contents of record file is simple:
+Each curve is saved as a file with suffix `.record`, in the very directory where you launcher HyperBoard Server. The content of record file is simple:
 
 ```shell
 $ head my_records/fd8e3e27e4ef661488932e9a58197d90.record
