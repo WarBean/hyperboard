@@ -1,4 +1,5 @@
 var refresh_data = function(response) {
+    var data_changed = false;
     for (var name in response) {
         if (response[name] == 'deleted') {
             delete name2series[name];
@@ -7,6 +8,7 @@ var refresh_data = function(response) {
         } else {
             name2series[name] = response[name];
         }
+        data_changed = true;
     }
     var new_hypername2values = {};
     var old_hypername2values = hypername2values;
@@ -27,28 +29,43 @@ var refresh_data = function(response) {
         }
     }
     hypername2values = new_hypername2values;
+    return data_changed;
 }
 
 var refresh_visible = function() {
+    var visible_changed_row = false;
     for (var name in name2series) {
-        name2visible_row[name] = true;
+        var visible = true;
         var hyperparameters = name2series[name].hyperparameters;
         for (var hypername in hyperparameters) {
             var hypervalue = hyperparameters[hypername];
             var selected = hypername2values[hypername][hypervalue];
             if (!selected) {
-                name2visible_row[name] = false;
+                visible = false;
                 break;
             }
         }
-    }
-    for (var name in name2series) {
-        if (hidden_names.has(name)) {
-            name2visible_curve[name] = false;
-        } else {
-            name2visible_curve[name] = name2visible_row[name];
+        if (name2visible_row[name] != visible) {
+            visible_changed_row = true;
+            name2visible_row[name] = visible;
         }
     }
+
+    var visible_changed_curve = false;
+    for (var name in name2series) {
+        var visible;
+        if (hidden_names.has(name)) {
+            visible = false;
+        } else {
+            visible = name2visible_row[name];
+        }
+        if (name2visible_curve[name] != visible) {
+            visible_changed_curve = true;
+            name2visible_curve[name] = visible;
+        }
+    }
+
+    return visible_changed_curve; // for now only use this
 }
 
 var refresh_curve = function() {
@@ -63,6 +80,7 @@ var refresh_curve = function() {
 
     var svg = d3.select("svg");
     svg.selectAll('*').remove();
+    d3.selectAll('div.tooltip').remove();
     if (visible_names.length == 0) {
         return;
     }
@@ -91,8 +109,8 @@ var refresh_curve = function() {
 
     var axis_count = Object.keys(metric2setup).length;
     var axis_offset = 40,
-        svg_height = 600,
-        svg_width = 960 + (axis_count - 1) * axis_offset;
+        svg_height = 700,
+        svg_width = 1024 + (axis_count - 1) * axis_offset;
     var margin = { top: 100, right: 60, bottom: 20, left: 60 },
         canvas_width = svg_width - margin.left - margin.right,
         canvas_height = svg_height - margin.top - margin.bottom;
@@ -134,10 +152,41 @@ var refresh_curve = function() {
         .attr("transform", "translate(" + shift + "," + canvas_height + ")")
         .call(d3.axisBottom(x));
 
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    var mouseover = function(name) {
+        var tip_text = [];
+        var hyperparameters = name2series[name].hyperparameters
+        for (var hypername in hyperparameters) {
+            tip_text.push(hypername + ': ' + hyperparameters[hypername]);
+        }
+        tip_text.push('');
+        tip_text.push('metric: ' + name2series[name].metric);
+        tip_text = tip_text.join('<br/>');
+        div.transition()
+            .duration(200)
+            .style("opacity", .9);
+        div .html(tip_text)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        d3.select(this).style("stroke-width", 2);
+    };
+
+    var mouseout = function(name) {
+        div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        d3.select(this).style("stroke-width", 1);
+    };
+
     canvas.selectAll(".curve")
         .data(visible_names)
         .enter()
         .append("path")
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
         .attr("class", "curve")
         .attr("transform", "translate(" + shift + ",0)")
         .attr("d", function(name) {
@@ -347,6 +396,7 @@ var request_for_update = function() {
     for (var name in name2series) {
         var records = name2series[name]['records'];
         name2max_index[name] = d3.max(records, function(record) { return record[0]; });
+        name2max_index[name] = name2series[name]['server_max_index'];
     }
     $.getJSON(
         '/update',
@@ -356,9 +406,11 @@ var request_for_update = function() {
             smooth_window: smooth_window,
         },
         function(response) {
-            refresh_data(response);
-            refresh_visible();
-            refresh_curve();
+            var data_changed = refresh_data(response);
+            var visible_changed_curve = refresh_visible();
+            if (data_changed || visible_changed_curve) {
+                refresh_curve();
+            }
             refresh_filter();
             refresh_table();
         }

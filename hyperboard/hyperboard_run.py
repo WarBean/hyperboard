@@ -21,4 +21,4 @@ def main():
 
     record_dir = os.getcwd()
     server = Server(record_dir, auth_pair)
-    server.run(host = host, debug = args.debug, port = args.port)
+    server.run(host = host, debug = args.debug, port = args.port, threaded = True)
