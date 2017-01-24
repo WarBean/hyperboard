@@ -5,6 +5,7 @@ var refresh_data = function(response) {
             delete name2series[name];
             delete name2visible_curve[name];
             delete name2visible_row[name];
+            hidden_names.delete(name);
         } else {
             name2series[name] = response[name];
         }
@@ -153,7 +154,7 @@ var refresh_curve = function() {
         .call(d3.axisBottom(x));
 
     var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
+        .attr("class", "curve_tooltip")
         .style("opacity", 0);
 
     var mouseover = function(name) {
@@ -294,21 +295,21 @@ var refresh_table = function() {
             field: hypername,
             title: hypername,
             align: 'center',
-            valign: 'middle'
+            valign: 'middle',
         });
     }
     columns.push({
         field: "color",
         title: "color",
         align: 'center',
-        valign: 'middle'
-    })
+        valign: 'middle',
+    });
     columns.push({
         field: "operation",
         title: "operation",
         align: 'center',
         valign: 'middle',
-    })
+    });
 
     var visible_names = [];
     for (var name in name2visible_row) {
@@ -317,7 +318,34 @@ var refresh_table = function() {
         }
     }
 
+    var button_class, button_text;
+    if (hidden_names.has('batch')) {
+        button_class = 'btn-default';
+        button_text = 'Hidden';
+    } else {
+        button_class = 'btn-primary';
+        button_text = 'Shown';
+    }
+    var operation_html = [
+        '<div class="btn-group-container">',
+        '<div class="btn-group" role="group" aria-label="...">',
+            '<button type="button" class="btn ' + button_class + ' batch-control-visibility">' + button_text + '</button>',
+            '<button type="button" class="btn btn-danger batch-control-delete">Delete from Server</button>',
+        '</div>',
+        '</div>',
+    ].join('');
+
     var rows = [];
+    var row = {};
+    for (var i = columns.length - 1; i > 1; i --) {
+        row[columns[i].field] = '';
+    }
+    row[columns[0].field] = 'For all curves currently in table';
+    row['color'] = '';
+    row['operation'] = operation_html;
+    if (visible_names.length > 0) {
+        rows.push(row);
+    }
     visible_names.forEach(function(name) {
         var row = {};
         var hyperparameters = name2series[name].hyperparameters;
@@ -344,8 +372,8 @@ var refresh_table = function() {
         var operation_html = [
             '<div class="btn-group-container">',
             '<div class="btn-group" role="group" aria-label="...">',
-                '<button type="button" id="visibility ' + name + '" class="btn ' + button_class + ' control-visibility">' + button_text + '</button>',
-                '<button type="button" id="delete ' + name + '" class="btn btn-danger control-delete">Delete from Server</button>',
+                '<button type="button" id="' + name + '" class="btn ' + button_class + ' single-control-visibility">' + button_text + '</button>',
+                '<button type="button" id="' + name + '" class="btn btn-danger single-control-delete">Delete from Server</button>',
             '</div>',
             '</div>',
         ].join('');
@@ -357,36 +385,68 @@ var refresh_table = function() {
         columns: columns,
         data: rows,
     });
-    $('button.btn').on('click', function(event) {
-        var button_id = event.target.id;
-        var i = button_id.indexOf(' ');
-        var operation = button_id.substr(0, i);
-        var name = button_id.substr(i + 1);
-        if (operation == 'visibility') {
-            if (hidden_names.has(name)) {
-                hidden_names.delete(name);
-                $('button[id="' + button_id + '"]').attr('class', 'btn btn-primary');
-                $('button[id="' + button_id + '"]').text('Shown');
-            } else {
-                hidden_names.add(name);
-                $('button[id="' + button_id + '"]').attr('class', 'btn btn-default');
-                $('button[id="' + button_id + '"]').text('Hidden');
-            }
-            refresh_visible();
-            refresh_curve();
-        } else if (operation == 'delete') {
-            $.get(
-                '/delete',
-                { name: name },
-                function(response) {
-                    clearTimeout(timeout_id);
-                    request_for_update();
-                }
-            );
+    $('#table').bootstrapTable('mergeCells', {
+        index: 0,
+        field: columns[0].field,
+        colspan: columns.length - 1,
+        rowspan: 1,
+    });
+
+    $('button.single-control-visibility').on('click', function(event) {
+        var name = event.target.id;
+        if (hidden_names.has(name)) {
+            hidden_names.delete(name);
+            $(this).attr('class', 'btn btn-primary single-control-visibility');
+            $(this).text('Shown');
         } else {
-            console.log('unknown operation: ' + operation);
+            hidden_names.add(name);
+            $(this).attr('class', 'btn btn-default single-control-visibility');
+            $(this).text('Hidden');
         }
-    })
+        refresh_visible();
+        refresh_curve();
+    });
+    $('button.batch-control-visibility').on('click', function(event) {
+        if (hidden_names.has('batch')) {
+            hidden_names.delete('batch');
+            $('button.single-control-visibility').attr('class', 'btn btn-primary single-control-visibility');
+            $('button.single-control-visibility').text('Shown');
+            visible_names.forEach(function(name) { hidden_names.delete(name); })
+            $(this).attr('class', 'btn btn-primary');
+            $(this).text('Shown');
+        } else {
+            hidden_names.add('batch');
+            $('button.single-control-visibility').attr('class', 'btn btn-default single-control-visibility');
+            $('button.single-control-visibility').text('Hidden');
+            visible_names.forEach(function(name) { hidden_names.add(name); })
+            $(this).attr('class', 'btn btn-default');
+            $(this).text('Hidden');
+        }
+        refresh_visible();
+        refresh_curve();
+    });
+    $('button.single-control-delete').on('click', function(event) {
+        var name = event.target.id;
+        $.get(
+            '/delete',
+            { names: JSON.stringify([name]) },
+            function(response) {
+                clearTimeout(timeout_id);
+                request_for_update();
+            }
+        );
+    });
+    $('button.batch-control-delete').on('click', function(event) {
+        $.get(
+            '/delete',
+            { names: JSON.stringify(visible_names) },
+            function(response) {
+                clearTimeout(timeout_id);
+                request_for_update();
+            }
+        );
+    });
+
     $('#out-most-div').css('min-height', 0);
     $('.fixed-table-body')[0].scrollLeft = scroll_left;
 }
@@ -445,6 +505,22 @@ window.onload = function () {
         smooth_window = event.target.value;
         request_for_update();
     });
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    $('#back-to-top').click(function () {
+        $('#back-to-top').tooltip('hide');
+        $('body,html').animate({
+            scrollTop: 0
+        }, 200);
+        return false;
+    });
+    $('#back-to-top').tooltip();
 
     request_for_update();
 }

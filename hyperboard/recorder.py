@@ -60,13 +60,14 @@ class Recorder:
         self.name2file[name].flush()
         return 'success'
 
-    def delete(self, name):
-        if name in self.name2file:
-            self.name2file[name].close()
-            del self.name2file[name]
-        del self.name2series[name]
-        path = os.path.join(self.dirname, name + '.record')
-        os.remove(path)
+    def delete(self, names):
+        for name in names:
+            if name in self.name2file:
+                self.name2file[name].close()
+                del self.name2file[name]
+            del self.name2series[name]
+            path = os.path.join(self.dirname, name + '.record')
+            os.remove(path)
 
     def max_index(self, name):
         if name in self.newbie:

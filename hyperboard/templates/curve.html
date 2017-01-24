@@ -27,57 +27,61 @@
     </head>
     <body>
         <div id="out-most-div">
-        <nav class="navbar navbar-default navbar-static-top">
-          <div class="container">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="/">HyperBoard</a>
+            <nav class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="/">HyperBoard</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav">
+                    <!--li><a href="/curve">Curve</a></li-->
+                    <!--li><a href="/curve">Histogram</a></li-->
+                    <!--li><a href="/curve">Scatter</a></li-->
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://github.com/WarBean/hyperboard">GitHub Repository</a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <div id="svg_div">
+                <svg></svg>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <!--li><a href="/curve">Curve</a></li-->
-                <!--li><a href="/curve">Histogram</a></li-->
-                <!--li><a href="/curve">Scatter</a></li-->
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/WarBean/hyperboard">GitHub Repository</a></li>
-              </ul>
+
+            <div class="margin-div"></div>
+
+            <div class="input-group-container">
+                <div class="input-group">
+                    <span class="input-group-addon">update interval</span>
+                    <input type="text" id="interval" class="form-control" value="1000" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">max sample count</span>
+                    <input type="text" id="sample" class="form-control" value="500" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">smooth window</span>
+                    <input type="text" id="window" class="form-control" value="1" aria-describedby="basic-addon1">
+                </div>
             </div>
-          </div>
-        </nav>
 
-        <div id="svg_div">
-            <svg></svg>
-        </div>
+            <div class="margin-div"></div>
 
-        <div class="margin-div"></div>
+            <div id="filter"></div>
 
-        <div class="input-group-container">
-            <div class="input-group">
-                <span class="input-group-addon">update interval</span>
-                <input type="text" id="interval" class="form-control" value="1000" aria-describedby="basic-addon1">
+            <div class="margin-div"></div>
+
+            <div id="table_div">
+                <table id="table"></table>
             </div>
-            <div class="input-group">
-                <span class="input-group-addon">max sample count</span>
-                <input type="text" id="sample" class="form-control" value="500" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">smooth window</span>
-                <input type="text" id="window" class="form-control" value="1" aria-describedby="basic-addon1">
-            </div>
-        </div>
 
-        <div class="margin-div"></div>
+            <link href="../static/css/curve.css" rel="stylesheet" type="text/css"/>
+            <script src="../static/js/curve.js"></script>
 
-        <div id="filter"></div>
-
-        <div class="margin-div"></div>
-
-        <div id="table_div">
-            <table id="table"></table>
-        </div>
-
-        <link href="../static/css/curve.css" rel="stylesheet" type="text/css"/>
-        <script src="../static/js/curve.js"></script>
+            <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Back to Top" data-toggle="tooltip" data-placement="top">
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </a>
         </div>
     </body>
 </html>

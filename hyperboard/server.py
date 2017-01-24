@@ -82,8 +82,8 @@ class Server:
         @app.route('/delete')
         @auth.login_required
         def delete():
-            name = request.args.get('name')
-            try: recorder.delete(name)
+            names = json.loads(request.args.get('names'))
+            try: recorder.delete(names)
             except: return 'fail'
             return 'success'
 

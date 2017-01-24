@@ -15,7 +15,7 @@ div#svg_div {
     stroke-width: 1px;
 }
 
-div.tooltip {
+div.curve_tooltip {
     position: absolute;
     text-align: center;
     width: auto;
@@ -72,4 +72,12 @@ div.color {
 
 .btn-group-container {
     width: 220px;
+}
+
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display:none;
 }
