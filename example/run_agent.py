@@ -4,7 +4,7 @@ import json
 import random
 from hyperboard import Agent
 
-agent = Agent('warbean', 'ciswarbean')
+agent = Agent()
 
 metric2scale = { 'cross entropy': 10, 'accuracy': 1, 'BLEU': 100 }
 criteria2metric = {

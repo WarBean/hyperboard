@@ -4,7 +4,7 @@ import requests
 
 class Agent:
 
-    def __init__(self, username, password, address = '127.0.0.1', port = 5000):
+    def __init__(self, username = '', password = '', address = '127.0.0.1', port = 5000):
         self.url = 'http://%s:%d' % (address, port)
         self.auth = (username, password)
 
@@ -16,7 +16,12 @@ class Agent:
             overwrite = overwrite,
         ))}
         r = requests.get(url, auth = self.auth, data = data)
-        if r.content.decode() == '<fail>':
+        result = r.content.decode()
+        if result == 'Unauthorized Access':
+            print('Error: %s, please provide your username and password by:' % result)
+            print('\tagent = Agent(your_username, your_password)')
+            sys.exit()
+        if result == '<fail>':
             msg = ''
             while msg not in ['Y', 'y', 'N', 'n']:
                 msg = input('overwrite? [Y/n]')
