@@ -1,15 +1,15 @@
 # HyperBoard: A web-based dashboard for Deep Learning
 
-HyperBoard is a simple visualization tool to facilitate hyperparameter tuning for Deep Learning players. It helps you
+HyperBoard is a simple visualization tool to facilitate hyperparameter tuning for Deep Learning players. It helps you to
 
-- train on remote server and visualize training curves on local browser
+- train on a remote server and visualize training curves on the local browser
 - update curves in real time
 - interactively compare hundreds of training curves for hyperparameter tuning, with filtering and visibility control
 - save hundreds of training records on disk and re-load them when needed
 
-HyperBoard resembles [Tensorboard](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard) and [Tensorboard for MXNet](https://github.com/dmlc/tensorboard). However, HyperBoard is independent from specific Deep Learning platform and provides extra functionalities.
+HyperBoard resembles [Tensorboard](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard) and [Tensorboard for MXNet](https://github.com/dmlc/tensorboard). However, HyperBoard is independent from any specific Deep Learning platform and provides extra functions.
 
-For now, HyperBoard only supports visualization of streaming scalar data (i.e. training curves). Two more features are in the plan:
+For now, HyperBoard only supports visualization of streaming scalar data (i.e. training curves). Two more features are being develeped:
 
 - visualization of streaming tensors as interactive animation of histograms
 - visualization of streaming tensors as interactive animation of scatter plots, using methods like t-SNE, Isomap, etc
@@ -17,6 +17,7 @@ For now, HyperBoard only supports visualization of streaming scalar data (i.e. t
 ## Installation
 
 ```shell
+pip install flask flask-httpauth requests numpy # install dependencies
 pip install hyperboard
 ```
 
