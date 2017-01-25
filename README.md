@@ -14,6 +14,8 @@ For now, HyperBoard only supports visualization of streaming scalar data (i.e. t
 - visualization of streaming tensors as interactive animation of histograms
 - visualization of streaming tensors as interactive animation of scatter plots, using methods like t-SNE, Isomap, etc
 
+**Watch a 3 minutes demonstration on [Youtube](https://youtu.be/sWmVZyRfejc) or [Bilibili](http://www.bilibili.com/video/av8215364/).**
+
 ## Installation
 
 ```shell
