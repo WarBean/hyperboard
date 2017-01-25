@@ -81,7 +81,7 @@ var refresh_curve = function() {
 
     var svg = d3.select("svg");
     svg.selectAll('*').remove();
-    d3.selectAll('div.tooltip').remove();
+    d3.selectAll('div.curve_tooltip').remove();
     if (visible_names.length == 0) {
         return;
     }
