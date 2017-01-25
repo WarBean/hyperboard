@@ -26,6 +26,7 @@ div.curve_tooltip {
     border: 0px;
     border-radius: 6px;
     pointer-events: none;
+    z-index: 9999;
 }
 
 .input-group-container {
@@ -49,11 +50,11 @@ div.curve_tooltip {
 }
 
 .multiselect {
-    width: 600px;
+    width: 400px;
 }
 
 .select_outer_div {
-    width: 800px;
+    width: 600px;
     margin: auto;
 }
 

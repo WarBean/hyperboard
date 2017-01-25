@@ -259,9 +259,9 @@ var refresh_filter = function() {
                 $div.insertAfter(last_child);
             }
             $("#filter div[id='" + hypername + "'] select").multipleSelect({
-                onClick: function(view) {
-                    var hypername = view.instance.$parent.parent().attr("id");
-                    var selected = new Set(view.instance.getSelects());
+                onClick: function(event) {
+                    var hypername = event.instance.$parent.parent().attr("id");
+                    var selected = new Set(event.instance.getSelects());
                     for (var hypervalue in hypername2values[hypername]) {
                         if (selected.has(hypervalue.toString())) {
                             hypername2values[hypername][hypervalue] = 1;
@@ -272,8 +272,25 @@ var refresh_filter = function() {
                     refresh_visible();
                     refresh_curve();
                     refresh_table();
-                }
+                },
             });
+            var $select_all = $('div#' + hypername + ' input[data-name="selectAll"]');
+            $select_all.attr('id', hypername);
+            $select_all.on('click', function(event) {
+                var hypername = event.target.id;
+                if (event.target.checked) {
+                    for (var hypervalue in hypername2values[hypername]) {
+                        hypername2values[hypername][hypervalue] = 1;
+                    }
+                } else {
+                    for (var hypervalue in hypername2values[hypername]) {
+                        hypername2values[hypername][hypervalue] = 0;
+                    }
+                }
+                refresh_visible();
+                refresh_curve();
+                refresh_table();
+            })
             last_child = $div;
         } else {
             last_child = $div;
