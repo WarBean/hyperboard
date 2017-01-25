@@ -18,7 +18,9 @@ For now, HyperBoard only supports visualization of streaming scalar data (i.e. t
 
 ```shell
 pip install flask flask-httpauth requests numpy # install dependencies
-pip install hyperboard
+git clone https://github.com/WarBean/hyperboard.git
+cd hyperboard/
+python setup.py install
 ```
 
 ## Usage
