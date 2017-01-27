@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = 'hyperboard',
-    version = '0.1',
+    version = '0.1.1',
     packages = ['hyperboard'],
     url='https://github.com/WarBean/hyperboard',
     author = 'Huabin Zheng',

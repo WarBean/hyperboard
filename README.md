@@ -14,7 +14,7 @@ For now, HyperBoard only supports visualization of streaming scalar data (i.e. t
 - visualization of streaming tensors as interactive animation of histograms
 - visualization of streaming tensors as interactive animation of scatter plots, using methods like t-SNE, Isomap, etc
 
-**Watch a 3 minutes demonstration on [Youtube](https://youtu.be/sWmVZyRfejc) or [Bilibili](http://www.bilibili.com/video/av8215364/).**
+**Watch a 3-minute demonstration on [Youtube](https://youtu.be/sWmVZyRfejc) or [Bilibili](http://www.bilibili.com/video/av8215364/).**
 
 ## Installation
 
@@ -27,16 +27,16 @@ python setup.py install
 
 ## Usage
 
-HyperBoard is easy to use. It is composed of three components: **Server**, **Agent** and **Dashboard**. In general, when playing with deep neural networks on some remote server, you can
+HyperBoard is easy to use. It is composed of three parts: **Server**, **Agent** and **Dashboard**. In general, when playing with deep neural networks on some remote server, you can
 
 - launch **HyperBoard Server** on the same remote server
-- setup your new hyperparameters, then call **HyperBoard Agent** to register some curves at the **HyperBoard Server** for this time
+- set up your new hyperparameters, then call **HyperBoard Agent** to register some curves at the **HyperBoard Server** for this time
 - start model training and for each K iteration, call **HyperBoard Agent** to send cross entropy, accuracy, BELU, etc to **HyperBoard Server**
 - open **HyperBoard Dashboard** on your local browser, watch the curves growing
 
 You can also run HyperBoard Server on your local PC. Currently, HyperBoard Server and Agent have been tested on Mac OS and Ubuntu. HyperBoard Dashboard has been tested on Firefox, Chrome and Safari.
 
-Here's the details:
+Here are the details:
 
 ### Prepare a directory for storing records
 
@@ -87,7 +87,7 @@ name = agent.register(hyperparameters, metric, overwrite = False)
 
 `metric` is a string label indicating the numerical range of the values you send next. Curves sharing the same `metric` will share one y-axis on the dashboard. It helps you properly visualize cross entropy and accuracy in the same graph.
 
-`overwrite = False` lets Agent to ask you for confirm before removing existing records with the same hyperparameter setup.
+`overwrite = False` lets Agent to ask you for confirmation before removing existing records with the same hyperparameter setup.
 
 ### Send record during training iteration
 
@@ -97,7 +97,7 @@ agent.append(name, index, value)
 
 ## Record Storage
 
-Each curve is saved as a file with suffix `.record`, in the very directory where you launcher HyperBoard Server. The content of record file is simple:
+Each curve is saved as a file with a suffix `.record`, in the very directory where you launch HyperBoard Server. The content of record file is simple:
 
 ```shell
 $ head my_records/fd8e3e27e4ef661488932e9a58197d90.record
@@ -115,4 +115,4 @@ accuracy
 
 The first line is hyperparameters. The second line is metric. Each line below contains the iteration index and the criteria value.
 
-The next time you launch HyperBoard Server, it will reload all `.record` files (except those you delete manually) in to memory.
+The next time you launch HyperBoard Server, it will reload all `.record` files (except those you delete manually) into memory.
