@@ -36,7 +36,7 @@ class Recorder:
         name = md5.hexdigest()
         if name in self.name2series:
             if overwrite:
-                self.delete(name)
+                self.delete([name])
             else:
                 return '<fail>'
         self.name2series[name] = {
