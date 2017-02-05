@@ -18,7 +18,7 @@ For now, HyperBoard only supports visualization of streaming scalar data (i.e. t
 
 Screenshot:
 
-->![alt text](https://github.com/WarBean/hyperboard/blob/master/example/screenshot.jpg)<-
+![alt text](https://github.com/WarBean/hyperboard/blob/master/example/screenshot.jpg)
 
 ## Installation
 
