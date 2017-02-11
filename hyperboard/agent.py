@@ -1,4 +1,5 @@
 import sys
+import math
 import json
 import requests
 
@@ -38,6 +39,9 @@ class Agent:
         return name
 
     def append(self, name, index, value):
+        if not math.isfinite(value):
+            print('HyperBorad agent get invalid value: %f' % value)
+            sys.exit()
         url = self.url + '/append'
         data = { 'json': json.dumps(dict(
             name = name,
