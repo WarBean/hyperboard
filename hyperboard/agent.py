@@ -25,7 +25,8 @@ class Agent:
         if result == '<fail>':
             msg = ''
             while msg not in ['Y', 'y', 'N', 'n']:
-                msg = input('overwrite? [Y/n]')
+                print('overwrite? [Y/n]')
+                msg = sys.stdin.readline().strip()
             if msg in 'Nn':
                 print('Record already exist, choose not to overwrite.')
                 sys.exit()
@@ -39,7 +40,7 @@ class Agent:
         return name
 
     def append(self, name, index, value):
-        if not math.isfinite(value):
+        if math.isinf(value):
             print('HyperBorad agent get invalid value: %f' % value)
             sys.exit()
         url = self.url + '/append'

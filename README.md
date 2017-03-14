@@ -9,11 +9,6 @@ HyperBoard is a simple visualization tool to facilitate hyperparameter tuning fo
 
 HyperBoard resembles [Tensorboard](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard) and [Tensorboard for MXNet](https://github.com/dmlc/tensorboard). However, HyperBoard is independent from any specific Deep Learning platform and provides extra functions.
 
-For now, HyperBoard only supports visualization of streaming scalar data (i.e. training curves). Two more features are being develeped:
-
-- visualization of streaming tensors as interactive animation of histograms
-- visualization of streaming tensors as interactive animation of scatter plots, using methods like t-SNE, Isomap, etc
-
 **Watch a 3-minute demonstration on [Youtube](https://youtu.be/sWmVZyRfejc) or [Bilibili](http://www.bilibili.com/video/av8215364/).**
 
 Screenshot:
@@ -23,7 +18,9 @@ Screenshot:
 ## Installation
 
 ```shell
-pip install flask flask-httpauth requests numpy # install dependencies
+# install dependencies
+pip install flask requests numpy
+pip install flask-httpauth # depend on flask
 git clone https://github.com/WarBean/hyperboard.git
 cd hyperboard/
 python setup.py install
