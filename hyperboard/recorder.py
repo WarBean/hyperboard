@@ -33,6 +33,7 @@ class Recorder:
         md5 = hashlib.md5()
         hyperjson = json.dumps(hyperparameters, sort_keys = True)
         md5.update(hyperjson.encode())
+        md5.update(metric.encode())
         name = md5.hexdigest()
         if name in self.name2series:
             if overwrite:
